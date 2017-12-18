@@ -1,0 +1,5 @@
+sphinx_fe -argfile cmusphinx-en-us-5.2/feat.params -samprate 16000 -c bangla_asr.fileids -di . -do . -ei wav -eo mfc -mswav yes
+pocketsphinx_mdef_convert.exe -text cmusphinx-en-us-5.2/mdef cmusphinx-en-us-5.2/mdef.txt
+bw -hmmdir cmusphinx-en-us-5.2 -moddeffn cmusphinx-en-us-5.2/mdef.txt  -ts2cbfn .cont. -feat 1s_c_d_dd -cmn current -agc none -dictfn cmudict-en-us.dict -ctlfn bangla_asr.fileids -lsnfn bangla_asr.transcription -accumdir . -lda cmusphinx-en-us-5.2/feature_transform
+mllr_solve.exe -meanfn cmusphinx-en-us-5.2/means -varfn cmusphinx-en-us-5.2/variances -outmllrfn mllr_matrix -accumdir .
+mllr_transform -inmeanfn cmusphinx-en-us-5.2\means -outmeanfn banglaAcousticModel\means  -mllrmat mllr_matrix

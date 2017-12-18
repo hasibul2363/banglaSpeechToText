@@ -1,0 +1,2 @@
+pocketsphinx_batch -adcin yes -cepdir wav -cepext .wav -ctl bangla_asr_train.fileids -lm LMTool\bangla_asr.lm -dict LMTool\bangla_asr.dic -hmm banglaAcousticModel -hyp test.hyp
+perl word_align.pl bangla_asr_train.transcription test.hyp

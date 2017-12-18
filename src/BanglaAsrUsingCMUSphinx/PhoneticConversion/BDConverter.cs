@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Data.OleDb;
 using System.Data;
@@ -10,10 +11,12 @@ namespace PhoneticConversion
     public class BDConverter
     {
         List<PhonaticDTO> oPhonaticDTOList;
+        public string PhoneticDictionaryPath { get; set; }
 
         private PhoneticWords phoneticWords;
-        public BDConverter() 
+        public BDConverter()
         {
+            PhoneticDictionaryPath = ConfigurationManager.AppSettings["phoneticDictionaryPath"];
             oPhonaticDTOList = ReturnPhonaticDb();
             phoneticWords = new PhoneticWords();
         }
@@ -28,7 +31,7 @@ namespace PhoneticConversion
         public string[] GetBanglaChar_fromDB(string english)
         {
             List<string> BanglaChar = new List<string>();
-            string conString = "Provider = Microsoft.ACE.OLEDB.12.0; data source = D:\\NLP_DB\\PhonaticMapping.mdb";
+            string conString = $@"Provider = Microsoft.ACE.OLEDB.12.0; data source = {PhoneticDictionaryPath}";
             OleDbConnection con = new OleDbConnection(conString);
             con.Open();
 
@@ -180,8 +183,7 @@ namespace PhoneticConversion
                 return oPhonaticDTOList;
             }
             oPhonaticDTOList = new List<PhonaticDTO>();
-
-            string conString = "Provider =Microsoft.ACE.OLEDB.12.0; data source = D:\\NLP_DB\\PhonaticMapping.mdb";
+            string conString = $@"Provider =Microsoft.ACE.OLEDB.12.0; data source = {PhoneticDictionaryPath}";
             OleDbConnection con = new OleDbConnection(conString);
             con.Open();
 

@@ -3,6 +3,7 @@ using PhoneticConversion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -94,11 +95,12 @@ namespace TestSpeech
         /// </summary>
         private void InitializeRecognizer()
         {
-            _sphinx = new SynSphinx();
-            _sphinx.DictionaryFile =    @"H:\MS_Project_28_11_2014\MSProject\acousticTrain\bangla_asr\LMTool\bangla_asr.dic";
-            _sphinx.LanguageModelFile = @"H:\MS_Project_28_11_2014\MSProject\acousticTrain\bangla_asr\LMTool\bangla_asr.lm";
-            _sphinx.AcousticModelDirectory = @"H:\MS_Project_28_11_2014\MSProject\acousticTrain\bangla_asr\banglaAcousticModel";
-
+            _sphinx = new SynSphinx
+            {
+                DictionaryFile = ConfigurationManager.AppSettings["dictionaryFilePath"],
+                LanguageModelFile = ConfigurationManager.AppSettings["languageFilePath"],
+                AcousticModelDirectory = ConfigurationManager.AppSettings["acousticmodelPath"]
+            };
             _sphinx.SpeechRecognized += TextRead;
             _sphinx.ErrorDetected += ErrorRead;
             _sphinx.StatusChanged += StatusRead;
